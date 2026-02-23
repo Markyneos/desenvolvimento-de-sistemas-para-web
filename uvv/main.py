@@ -3,3 +3,24 @@ from http.server import SimpleHTTPRequestHandler
 import os
 
 PORT = int(os.getenv("PORT", 3001)) # Porta padrão 3001
+
+class ManuseioHttpRequest(SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write("<p>Ola, mundo!</p>".encode())
+        elif self.path == "/rota1":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write("<p>Ola, mundo parte 2 o retorno</p>".encode())
+        else:
+            self.send_error(404)
+
+app = MyWebServer(ManuseioHttpRequest)
+
+if __name__ == '__main__':
+    app.run()
+
